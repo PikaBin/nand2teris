@@ -1,0 +1,48 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux4Way.hdl
+
+/**
+ * 4-way demultiplexor:
+ * {a, b, c, d} = {in, 0, 0, 0} if sel == 00
+ *                {0, in, 0, 0} if sel == 01
+ *                {0, 0, in, 0} if sel == 10
+ *                {0, 0, 0, in} if sel == 11
+ */
+
+     /**
+
+    */
+
+CHIP DMux4Way {
+    IN in, sel[2];
+    OUT a, b, c, d;
+
+    PARTS:
+    // Put your code here:
+
+    // 第一种解法
+    Not(in = sel[1],out = notsel1);
+    Not(in = sel[0],out = notsel0);
+
+    And(a = notsel0,b = notsel1,out = anda);
+    And(a = in,b = anda,out = a);
+
+    And(a = sel[0],b = notsel1,out = andb);
+    And(b = in,a = andb,out = b);
+
+    And(a = notsel0,b = sel[1],out = andc);
+    And(a = in,b = andc,out = c);
+
+    And(a = sel[1],b = sel[0],out = andd);
+    And(a = in,b = andd,out = d);
+
+
+    //第二种解法 sel[2]的下标是从右往左数的
+    /**
+    DMux(in=in, sel=sel[1], a=t1, b=t2);
+    DMux(in=t1, sel=sel[0], a=a,  b=b);
+    DMux(in=t2, sel=sel[0], a=c,  b=d);   
+    */
+}

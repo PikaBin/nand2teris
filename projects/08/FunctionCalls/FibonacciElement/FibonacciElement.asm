@@ -1,0 +1,467 @@
+@256
+D=A
+@SP
+M = D
+@Sys.init_returnAdress_
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THIS
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THAT
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+D=M
+@LCL
+M=D
+@5
+ D=D-A
+@ARG
+M=D
+@Sys.init
+0;JMP
+(Sys.init_returnAdress_)
+(Main.fibonacci)
+@ARG
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@2
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+ D=M-D
+@label_true_0
+D;JLT
+@SP
+ A=M
+ M=0
+@SP
+ M=M+1
+@label_next_0
+0;JMP
+(label_true_0)
+@SP
+ A=M
+ M=-1
+@SP
+ M=M+1
+(label_next_0)
+@SP
+AM=M-1
+D=M
+@Main.fibonacci$IF_TRUE
+D;JNE 
+@Main.fibonacci$IF_FALSE
+0;JMP
+(Main.fibonacci$IF_TRUE)
+@ARG
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@LCL
+ D=M
+@FRAME1
+ M=D
+@5
+ D=D-A
+ A=D
+ D=M
+@ret1
+ M=D
+@SP
+ AM=M-1
+ D=M
+@13
+ M=D
+@0
+ D=A
+@ARG
+ D=D+M
+ @14
+ M=D
+@13
+ D=M
+@14
+ A=M
+ M=D
+@ARG
+ D=M
+@SP
+ M=D+1
+@FRAME1
+ A=M-1
+ D=M
+@THAT
+ M=D
+@FRAME1
+ D=M
+ @2
+ D=D-A
+ A=D
+ D=M
+@THIS
+ M=D
+@FRAME1
+ D=M
+ @3
+ D=D-A
+ A=D
+ D=M
+@ARG
+ M=D
+@FRAME1
+ D=M
+ @4
+ D=D-A
+ A=D
+ D=M
+@LCL
+ M=D
+@ret1
+ A=M
+ 0;JMP
+(Main.fibonacci$IF_FALSE)
+@ARG
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@2
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M-D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@Main.fibonacci_returnAdress_0
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THIS
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THAT
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+D=M
+@LCL
+M=D
+@5
+ D=D-A
+@1
+D=D-A
+@ARG
+M=D
+@Main.fibonacci
+0;JMP
+(Main.fibonacci_returnAdress_0)
+@ARG
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@1
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M-D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@Main.fibonacci_returnAdress_1
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THIS
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THAT
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+D=M
+@LCL
+M=D
+@5
+ D=D-A
+@1
+D=D-A
+@ARG
+M=D
+@Main.fibonacci
+0;JMP
+(Main.fibonacci_returnAdress_1)
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M+D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+ D=M
+@FRAME2
+ M=D
+@5
+ D=D-A
+ A=D
+ D=M
+@ret2
+ M=D
+@SP
+ AM=M-1
+ D=M
+@13
+ M=D
+@0
+ D=A
+@ARG
+ D=D+M
+ @14
+ M=D
+@13
+ D=M
+@14
+ A=M
+ M=D
+@ARG
+ D=M
+@SP
+ M=D+1
+@FRAME2
+ A=M-1
+ D=M
+@THAT
+ M=D
+@FRAME2
+ D=M
+ @2
+ D=D-A
+ A=D
+ D=M
+@THIS
+ M=D
+@FRAME2
+ D=M
+ @3
+ D=D-A
+ A=D
+ D=M
+@ARG
+ M=D
+@FRAME2
+ D=M
+ @4
+ D=D-A
+ A=D
+ D=M
+@LCL
+ M=D
+@ret2
+ A=M
+ 0;JMP
+(Sys.init)
+@4
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@Main.fibonacci_returnAdress_2
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THIS
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@THAT
+D=M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+D=M
+@LCL
+M=D
+@5
+ D=D-A
+@1
+D=D-A
+@ARG
+M=D
+@Main.fibonacci
+0;JMP
+(Main.fibonacci_returnAdress_2)
+(Sys.init$WHILE)
+@Sys.init$WHILE
+0;JMP

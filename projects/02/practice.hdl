@@ -1,0 +1,115 @@
+/**
+ * Computes the sum of two bits.
+ */
+
+CHIP HalfAdder {
+    IN a, b;    // 1-bit inputs
+    OUT sum,    // Right bit of a + b 
+        carry;  // Left bit of a + b
+
+    PARTS:
+    And(a=a,b=b,out = carry);
+    Xor(a=a,b=b,out = sum);
+
+}
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    HalfAdder(a=a,b=b,sum = sum1,carry=carry1);
+    HalfAdder(a=sum1,b=c,sum = sum,carry = carry2);
+    HalfAdder(a=carry1,b=carry2,sum = carry,carry = out1);
+}
+
+
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
+
+// Implementation: the ALU logic manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+
+    /**处理x,y的输入**/
+
+    //x,y的的取相反值,x,y置零实现,无须实现
+    Not16(in=x,out= notX);
+    Inc16(in=notX,out = NegativeX);
+
+    Not16(in = y, out = notY);
+    Inc16(in = notY, out = NegativeY);
+
+    //构建 nx,ny,zx,zy
+    Mux16(a=x,b=NegativeX,sel = nx,out = isNX);
+    Mux16(a=isNX,b=0,sel = zx,out = finalX);
+
+    Mux16(a=y,b=NegativeY,sel = ny,out = isNY);
+    Mux16(a=isNY,b=0,sel = zy,out = finalY);
+
+
+    //构建 f的实现
+    Add16(a=finalX,b=finalY,out = addResult);
+    And16(a = finalX, b= finalY,out = AndResult);
+
+    Mux16(a = AndResult,b = addResult,sel = f,out = originOut);
+
+    //构建 no的控制位
+    Not16(in=originOut,out= notoriginOut);
+    Inc16(in=notoriginOut,out = Nout); 
+    
+    //输出out
+    Mux16(a=originOut,b=Nout,sel = no,out = out);
+
+    //输出zr
+    And16(a = out,b[0]=true,out = notZR);
+    Not16(in = NotZR,out = zr);
+
+    //输出ng
+    And(a=out[15],b = true,out = ng);
+
+
+
+
+
+    
+    
+
+
+
+
+    }

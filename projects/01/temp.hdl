@@ -1,0 +1,64 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or.hdl
+
+ /**
+ * Or gate:
+ * out = 1 if (a == 1 or b == 1)
+ *       0 otherwise
+ */
+
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+        nand(a=a,b=a,out= nota);
+        nand(a=b,b=b,out= notb);
+        nand(a=nota,b=notb,out=out);
+        
+    }
+
+/**
+ * Exclusive-or gate:
+ * out = not (a == b)
+ */
+
+CHIP Xor {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    //(not a and b) or (not b and a)
+    not(in = a,out = nota);
+    not(in = b,out = notb); 
+    and(a=nota,b=b,out =out1);
+    and(a=notb,b=a,out = out2);
+    or(a=out1,b=out2,out = out);
+    
+}
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ *规范表达式
+ *(a and !b and !sel) or(a and b and !sel) or(!a and b and sel) or(a and b and sel)
+ (b and sel) or (a and !sel)
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    Not(in =sel ,out = notSel);
+    And(a=sel,b=b,out = bAndsel);
+    And(a=a,b=notSel,out = aOrsel);
+    Or(a=bAndsel,b= aOrsel,out = out);
+
+
+    }

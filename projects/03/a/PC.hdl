@@ -1,0 +1,58 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    
+    Mux16(a = preOut,b = addOut,sel = inc,out = o1);
+
+    Mux16(a = o1,b = in,sel = load,out = o2);
+
+    Mux16(a = o2,b = false,sel = reset,out = o3);
+
+    Register(in = o3,load = true,out = preOut,out = out); //load = true 这意思是无论执行什么操作，都把操作结果保存下来，但是输出的仍然是上一个时钟周期寄存器中的值
+
+    Inc16(in = preOut,out = addOut);
+    
+    
+
+    // 下面这种从reset 至 inc的处理顺序是不行的，如果按照这种顺序，前面一旦有ctrl bit = 1，理应直接结束，直接out,不再往后处理
+    /**
+    Mux16(a = preOut,b = false,sel = reset,out = o1);
+
+    Mux16(a = o1,b = in,sel = load,out = o2);
+
+    Inc16(in = o2,out = addOut);
+
+    Mux16(a = o2,b = addOut,sel = inc,out = o3);
+
+    Register(in = o3,load = true,out = preOut,out = out);
+
+    */
+
+    //这种写法 说明没有采用时序思维，结果值会立马输出[ out[t] = out[t] ]而不是out[t] = out[t-1];
+    //因为out 没有放进时序芯片而是放进了Mux 组合芯片
+    //在load=0这种情况下第一步使用Register芯片，就会输出一个随意值，而不是之前的输出
+    /**
+    Register(in=in,load = load,out = preOut1);
+    Inc16(in = preOut1,out = incOut);
+    Mux16(a = preOut1,b = incOut,sel = inc,out = preOut);
+    Mux16(a=preOut,b=false,sel = reset,out = out1);
+    */
+    //Register(in = out1,load = true,out= out);
+    
+}

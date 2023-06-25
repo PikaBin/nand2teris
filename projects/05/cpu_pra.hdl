@@ -1,0 +1,83 @@
+/**2023-4-09 组建computer芯片**/
+
+//内存芯片（数据内存）
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    //这里控制位sel写反了，芯片名字写错，写错的原因是sel[2]的下标是从右往左数的
+    //DMux(in = load,sel[0] = address[14],sel[1] = address[13],a = lrl,b=lrh,c=ls,d=lk); 
+    DMux4Way(in = load,sel[0] = address[13],sel[1] = address[14],a = lrl,b=lrh,c=ls,d=lk);
+
+    or(a=lrh,b=lrl,out = loadr);
+    RAM16K(in = in,load = loadr,address=address[0..13],out = outram);
+    Screen(in = in,load=ls,address=address[0..12],out=outs);
+    Keyboard(out=outk);
+
+    Mux4Way16(a=outram,b=outram,c=outs,d=outk,sel[0]=address[13],sel[1]=address[14],out = out);
+
+}
+
+//CPU芯片
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    Not(in=instruction[15],out = isA);
+    Not(in = isA,out = isC);
+
+    And(a=isC,b = instruction[4],out = isLoadDR);
+    DRegister(in = outALU,load=isLoadDR,out = outDR);
+
+    And(a=isC,b=instruction[5],out=isARLoad);
+    Mux16(a=instruction,b=outALU,sel=isARLoad,out = inAR);
+
+    And(a=isC,b=instruction[3],out = writeM);
+
+    Or(a=isA,b=instruction[5],out= loadAR);
+    ARegister(in=inAR,load=loadAR,out=outAR,out[0..14]=addressM);
+
+    Mux16(a=outAR,b=inM,sel=instruction[12],out=outAM);
+
+    And(a = isC, b = instruction[6], out = no);
+    And(a = isC, b = instruction[7], out = f);
+    And(a = isC, b = instruction[8], out = ny);
+    And(a = isC, b = instruction[9], out = zy);
+    And(a = isC, b = instruction[10], out = nx);
+    And(a = isC, b = instruction[11], out = zx);
+
+    ALU(x = outDR, y = outAM, zx = zx, nx = nx, zy = zy, ny = ny, f = f, no = no, out = outALU, out = outM, zr=zr, ng=ng);
+
+    //处理跳转逻辑
+    And(a = isC, b = instruction[0], out = isGT); 
+
+    And(a = isC, b = instruction[1], out = isEQ);
+    And(a = isC, b = instruction[2], out = isLT);
+
+    And(a=ng,b=isLT,out=LtJump);
+    And(a=zr,b=isEQ,out=zrJump);
+
+    //判断alu输出是否大于0
+    Not(in = ng, out = notNg);
+    Not(in = zr, out = notZr);
+    And(a = notNg, b = notZr, out = isOutGt);
+    
+    And(a = isOutGt, b = isGT, out = isGtJump);
+
+    Or(a = LtJump, b = zrJump, out = isJump);
+    Or(a = isJump, b = isGtJump, out = jump);
+
+    PC(in = outAR, load = jump, inc = true, reset = reset, out[0..14] = pc);
+    
+}

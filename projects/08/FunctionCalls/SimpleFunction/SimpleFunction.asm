@@ -1,0 +1,190 @@
+(SimpleFunction.test)
+@2
+D=A
+@i
+ M=D
+ @loc
+ M=0
+(SimpleFunction.testpush0)
+@0
+D=A
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+ AM=M-1
+ D=M
+@13
+ M=D
+@loc
+ D=M
+@LCL
+D=D+M
+@14
+ M=D
+@13
+ D=M
+@14
+ A=M
+ M=D
+@loc
+ M=M+1
+@i
+ MD=M-1
+@SimpleFunction.testpush0
+D;JGT
+@LCL
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@LCL
+D=M
+@1
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M+D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=!M
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@0
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M+D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@ARG
+D=M
+@1
+D=D+A
+ A=D
+ D=M
+@SP
+ A=M
+ M=D
+ @SP
+ M=M+1
+@SP
+ M=M-1
+ A=M
+ D=M
+@SP
+ M=M-1
+ A=M
+D=M-D
+@SP
+ A=M
+ M=D
+@SP
+ M=M+1
+@LCL
+ D=M
+@FRAME
+ M=D
+@5
+ D=D-A
+ A=D
+ D=M
+@RET
+ M=D
+@SP
+ AM=M-1
+ D=M
+@13
+ M=D
+@0
+ D=A
+@ARG
+ D=D+M
+ @14
+ M=D
+@13
+ D=M
+@14
+ A=M
+ M=D
+@ARG
+ D=M
+@SP
+ M=D+1
+@FRAME
+ A=M-1
+ D=M
+@THAT
+ M=D
+@FRAME
+ D=M
+ @2
+ D=D-A
+ A=D
+ D=M
+@THIS
+ M=D
+@FRAME
+ D=M
+ @3
+ D=D-A
+ A=D
+ D=M
+@ARG
+ M=D
+@FRAME
+ D=M
+ @4
+ D=D-A
+ A=D
+ D=M
+@LCL
+ M=D
+@RET
+ 0;JMP

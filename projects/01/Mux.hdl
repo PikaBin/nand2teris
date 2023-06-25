@@ -1,0 +1,33 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ * 运算过程
+ *根据规范表示法来推出：
+ a*b*-s + a*b*s + -a*b*s + a*b*-s  
+ 将第一项与第四项合并得a*-s ,第二项与第三项合并得b*s,即得：a*-s + b*s
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    //Not(in = sel,out = notSel);
+    //And(a = notSel,b = a,out = o1);
+
+    //And(a = sel,b = b, out = o2);
+
+    //Or(a = o1,b = o2,out = out);
+    
+    Not(in =sel ,out = notSel);
+    And(a=sel,b=b,out = bAndsel);
+    And(a=a,b=notSel,out = aOrsel);
+    Or(a=bAndsel,b= aOrsel,out = out);
+}
