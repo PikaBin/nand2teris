@@ -74,6 +74,7 @@ std::string CodeViewer::writePushPop(const vector<string> &accessCommandVec)
         }else if (accessCommandVec[1]=="static")
         {
             pushFrom = m_filename+"."+ accessCommandVec[2];
+            return "@"+pushFrom+"\n" "D=M\n"  "@SP\n A=M\n M=D\n " "@SP\n M=M+1\n";
         }
         
         return "@"+pushFrom+"\n" "D=M\n" "@"+accessCommandVec[2]+"\n" "D=D+A\n A=D\n D=M\n"  "@SP\n A=M\n M=D\n " "@SP\n M=M+1\n";
@@ -112,6 +113,7 @@ std::string CodeViewer::writePushPop(const vector<string> &accessCommandVec)
         }else if(accessCommandVec[1]=="static")
         {
             localtion = m_filename+"."+ to_string(pos);
+            return "@SP\n AM=M-1\n D=M\n" "@"+localtion+"\n" "M=D\n";
         }
         
         return "@SP\n AM=M-1\n D=M\n" "@13\n M=D\n" "@"+accessCommandVec[2]+"\n D=A\n" "@"+localtion+"\n D=D+M\n "
