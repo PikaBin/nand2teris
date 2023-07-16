@@ -1,0 +1,111 @@
+
+class Circle{
+    field int x,y; // the center of the circle
+    field int radius;
+
+    constructor Circle new(int Ax,int Ay,int Aradius)
+    {
+        let x = Ax;
+        let y = Ay;
+        let radius = Aradius;
+        do draw();
+        return this;
+    }
+
+    //deconstructor
+    method void dispose()
+    {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //draw circle
+    method void draw()
+    {
+        do Screen.setColor(true);
+        do Screen.drawCircle(x,y,radius);
+        return;
+    }
+
+    // erase the circle
+    method void erase()
+    {
+        do Screen.setColor(false);
+        do Screen.drawCircle(x,y,radius);
+        return;
+    }
+
+    //bigger 2 pixels
+    method void getBigger()
+    {
+        if( (( x-radius)> 0) & ((x+radius+2) < 256) & ((y-radius) > 0 ) & ((y+radius+2) < 512 )) 
+        {
+            do erase();
+            let radius = radius + 2;
+            do draw();
+        }
+
+        return;
+    }
+
+    //smaller 2 pixels
+    method void getSmaller()
+    {
+        if(radius>10) 
+        {
+            do erase();
+            let radius = radius - 10;
+            do draw();
+        }
+
+        return;
+    }
+
+    //move up 2 pixels
+    method void moveUp()
+    {
+        if((y-radius) > 1)
+        {
+            do erase();
+            let y = y - 2;
+            do draw();
+        }
+        return;       
+    }
+
+    //move down 2 pixels
+    method void moveDown()
+    {
+        if((y+radius+2) < 256)
+        {
+            do erase();
+            let y = y + 2;
+            do draw();
+        }
+        return;       
+    }
+
+    //move left 2 pixels
+    method void moveLeft()
+    {
+        if((x - radius) >1 )
+        {
+            do erase();
+            let x = x-2;
+            do draw();
+        }
+        return;
+    }
+
+    //move right 2 pixels
+    method void moveRight()
+    {
+        if((x + radius+2) < 512 )
+        {
+            do erase();
+            let x = x+2;
+            do draw();
+        }
+        return;
+    }
+}

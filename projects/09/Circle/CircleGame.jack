@@ -1,0 +1,61 @@
+
+class CircleGame{
+    field Circle circle;
+    field int direction; //
+
+    constructor CircleGame new()
+    {
+        let circle = Circle.new(50,50,30);
+        let direction = 0;
+        return this;
+    }
+
+    method void dispose()
+    {
+        do circle.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void moveCircle()
+    {
+        if(direction = 1) {do circle.moveUp();}
+        if(direction = 2) {do circle.moveDown();}
+        if(direction = 3) {do circle.moveLeft();}
+        if(direction = 4) {do circle.moveRight();}
+        do Sys.wait(10);
+        return;
+    }
+
+    method void run()
+    {
+        var char key;
+        var boolean exit;
+        let exit = false;
+
+        while(~exit)
+        {
+            while(key = 0)
+            {
+                let key = Keyboard.keyPressed();
+                do moveCircle();
+            }
+
+            if (key = 81)  { let exit = true; }     // q key
+            if (key = 90)  { do circle.getSmaller(); } // z key
+            if (key = 88)  { do circle.getBigger(); } // x key
+            if (key = 131) { let direction = 1; }   // up arrow
+            if (key = 133) { let direction = 2; }   // down arrow
+            if (key = 130) { let direction = 3; }   // left arrow
+            if (key = 132) { let direction = 4; }   // right arrow
+
+            while(~(key = 0))
+            {
+                let key = Keyboard.keyPressed();
+                do moveCircle();
+            }
+        }
+        return;
+        
+    }
+}
